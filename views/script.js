@@ -29,10 +29,15 @@ async function main() {
 
 async function generateReport() {
   try {
+    document.getElementById("generate-report").style.display = "none";
+    document.getElementById("generating").style.display = "block";
     const response = await fetch("/generate-report");
     console.log(response);
   } catch (error) {
     console.error("Error generating report:", error);
+  } finally {
+    document.getElementById("generate-report").style.display = "block";
+    document.getElementById("generating").style.display = "none";
   }
 }
 
@@ -64,6 +69,8 @@ async function getAvgValues() {
   } catch (error) {
     console.error("Error getting average values:", error);
     // Handle error
+  } finally {
+    document.getElementById("loading").style.display = "none";
   }
 }
 
