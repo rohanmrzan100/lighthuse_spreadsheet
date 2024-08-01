@@ -7,10 +7,8 @@ async function getAllColumnValues(auth, spreadsheetId, sheetTitle) {
     const spreadsheetResponse = await sheets.spreadsheets.get({
       spreadsheetId: spreadsheetId,
     });
-    const sheetList = spreadsheetResponse.data.sheets;
     const allColumns = [];
 
-    // const sheetTitle = sheetList[sheetList.length - 1].properties.title;
     const range = `${sheetTitle}!C2:ZZ`;
     const valuesResponse = await sheets.spreadsheets.values.get({
       spreadsheetId: spreadsheetId,

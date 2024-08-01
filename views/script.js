@@ -1,12 +1,3 @@
-const auditParams1 = ["Performance", "Accessibility", "Best Practices", "SEO"];
-const auditParams2 = [
-  "First Meaningful Paint (s)",
-  "First Contentful Paint (s)",
-  "Largest Contentful Paint (s)",
-  "Total Blocking Time (s)",
-  "Cumulative Layout Shift",
-  "Speed Index (s)",
-];
 const auditParams = [
   "Performance",
   "Accessibility",
@@ -31,8 +22,7 @@ async function generateReport() {
   try {
     document.getElementById("generate-report").style.display = "none";
     document.getElementById("generating").style.display = "block";
-    const response = await fetch("/generate-report");
-    console.log(response);
+    await fetch("/generate-report");
   } catch (error) {
     console.error("Error generating report:", error);
   } finally {
@@ -45,7 +35,6 @@ async function getAvgValues() {
   try {
     const response = await fetch("/get-avg-score-from-all-sheets");
     let data = await response.json();
-
     auditParams.forEach((params, index) => {
       const chartDiv = document.createElement("div");
       document.querySelector(".chart-section").appendChild(chartDiv);
@@ -58,7 +47,7 @@ async function getAvgValues() {
       const auditValues = [];
       const xLabel = [];
       const yAxisLabel = index > 3 ? "Time (s)" : "Score";
-      data.data.forEach((data) => {
+      data.data.slice(-10).forEach((data) => {
         xLabel.push(data.title);
 
         auditValues.push(data.values[index]);
