@@ -48,7 +48,7 @@ export default async function getLightHouseResult(url, port, index) {
     } = lhr.categories;
     const { audits } = lhr;
 
-    console.log(performance.score * 100);
+    // console.log(performance.score * 100);
     return [
       index,
       url,

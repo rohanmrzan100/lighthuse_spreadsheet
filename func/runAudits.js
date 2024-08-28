@@ -2,8 +2,10 @@ import puppeteer from "puppeteer";
 import getLightHouseResult from "./getLightHouseResult.js";
 export default async function runAudits(urls) {
   const browser = await puppeteer.launch({
-    executablePath: "/usr/bin/chromium-browser",
+    // executablePath: "/usr/bin/chromium-browser",
+    executablePath: '/usr/bin/google-chrome',
     headless: true,
+    defaultViewport: null,
     args: ["--no-sandbox"],
   });
 

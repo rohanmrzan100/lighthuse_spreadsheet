@@ -156,51 +156,44 @@ app.get("/get-avg-score-from-all-sheets", async (req, res) => {
 });
 
 async function scheduleEndpointCall() {
-  const currentTime = new Date();
-  const currentHour = currentTime.getHours();
-  const currentMinute = currentTime.getMinutes();
-
-  if (currentHour === 18 && currentMinute === 35) {
-    try {
-      async function main() {
-        const response = await runAudits(urls);
-        return response;
-      }
-      main().then(async (response) => {
-        const titleRow = [
-          "No.",
-          "Path",
-          "Performance",
-          "Accessibility",
-          "Best Practices",
-          "SEO",
-          "First Meaningful Paint (s)",
-          "First Contentful Paint (s)",
-          "Largest Contentful Paint (s)",
-          "Total Blocking Time (ms)",
-          "Cumulative Layout Shift",
-          "Speed Index (s)",
-        ];
-
-        let currentDate = new Date();
-        let options = { month: "long", day: "numeric", year: "numeric" };
-        let formattedDate = currentDate.toLocaleDateString("en-US", options);
-        await addSheet(
-          googleAuth,
-          googleSheetId,
-          formattedDate,
-          titleRow,
-          response
-        );
-        console.log("success");
-      });
-    } catch (error) {
-      console.log(error);
+  console.log("Called");
+  try {
+    async function main() {
+      const response = await runAudits(urls);
+      return response;
     }
+    main().then(async (response) => {
+      const titleRow = [
+        "No.",
+        "Path",
+        "Performance",
+        "Accessibility",
+        "Best Practices",
+        "SEO",
+        "First Meaningful Paint (s)",
+        "First Contentful Paint (s)",
+        "Largest Contentful Paint (s)",
+        "Total Blocking Time (ms)",
+        "Cumulative Layout Shift",
+        "Speed Index (s)",
+      ];
+
+      let currentDate = new Date();
+      let options = { month: "long", day: "numeric", year: "numeric" };
+      let formattedDate = currentDate.toLocaleDateString("en-US", options);
+      await addSheet(
+        googleAuth,
+        googleSheetId,
+        formattedDate,
+        titleRow,
+        response
+      );
+    });
+  } catch (error) {
+    console.log(error);
   }
 }
-
-setInterval(scheduleEndpointCall, 60000);
+setInterval(scheduleEndpointCall, 360000);
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
